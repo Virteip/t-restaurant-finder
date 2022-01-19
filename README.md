@@ -74,35 +74,35 @@ curl --location --request POST 'localhost:3000/api/restaurant-finder/user/login'
 }'
 ```
 ##### Response:
-- The response wil be a tokenized string that is used to identify the user that is logged in and is later needed to consult the restaurants.
+- The response wil be a tokenized string that is used to identify the user that is logged in and is later needed to consult the restaurants,transactions and logout.
 
 ####  `/api/restaurant-finder/restaurant/locate?lat=13&lng=-1`:
 *lat and lng values are examples, they could be any coordenates you desire.
 ```
 curl --location --request GET 'localhost:3000/api/restaurant-finder/restaurant/locate?lat=13&lng=-1' \
---header 'api_key: 1234' \
 --header 'Authorization: test' \
---header 'Content-Type: application/json' \
---header 'token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoieWVzIiwicGFzc3dvcmQiOiIxMjM0IiwiZGF0ZSI6MTY0MjYwNTk3NX0.dK0_OzZEZ0nfHiu8v3rN_G51WeUqMauoXyEVgvoC4XI' \
---header 'user: yes'
+--header 'token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiaGFwcHB5IiwicGFzc3dvcmQiOiIxMjM0IiwiZGF0ZSI6MTY0MjYyNzQ2N30.pJane3JVPkXjBLRSNW7Y-gk3A3ifk83-ej_cWtXVYy8' \
+--header 'user: happpy'
 ```
 ##### Response:
 - The response will be an array objects in which each of them contains the information for a particular restaurant in the area you passed as coordenates.
 
-####  `/api/restaurant-finder/user/transactions/:username` :
+####  `/api/restaurant-finder/user/transactions` :
 ```
-curl --location --request GET 'localhost:3000/api/restaurant-finder/user/transactions/yes' \
---header 'api_key: 1234' \
---header 'Authorization: test'
+curl --location --request GET 'localhost:3000/api/restaurant-finder/user/transactions/' \
+--header 'Authorization: test' \
+--header 'token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiaGFwcHB5IiwicGFzc3dvcmQiOiIxMjM0IiwiZGF0ZSI6MTY0MjYyNzQ2N30.pJane3JVPkXjBLRSNW7Y-gk3A3ifk83-ej_cWtXVYy8' \
+--header 'user: happpy'
 ```
 ##### Response:
 - The response will be an array objects in which each of them contains the information of a request a user has made to the restaurant locator. Each object will have username, date and coordinates.
 
-####  `/api/restaurant-finder/user/logout/:username` :
+####  `/api/restaurant-finder/user/logout` :
 ```
-curl --location --request GET 'localhost:3000/api/restaurant-finder/user/logout/yes' \
---header 'api_key: 1234' \
---header 'Authorization: test'
+curl --location --request GET 'localhost:3000/api/restaurant-finder/user/logout/' \
+--header 'Authorization: test' \
+--header 'token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiaGFwcHB5IiwicGFzc3dvcmQiOiIxMjM0IiwiZGF0ZSI6MTY0MjYyNzQ2N30.pJane3JVPkXjBLRSNW7Y-gk3A3ifk83-ej_cWtXVYy8' \
+--header 'user: happpy'
 ```
 ##### Response:
 - This will logout a user, after this endpoint is hit the user will need to log in again and regenerate a token.

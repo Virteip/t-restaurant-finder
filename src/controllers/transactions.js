@@ -1,14 +1,13 @@
-const restaurants = module.exports;
-const restaurantsService = require('../services/restaurants');
-
+const transactions = module.exports;
+const transactionsService = require('../services/transactions');
 const logger = require('../configs/logger/logger');
 
-restaurants.locate = async (req, res, next) => {
-  const section = 'Controller: restaurants.locate';
-  const { user } = req.headers;
-  const { query } = req;
+transactions.userTransactions = async (req, res, next) => {
+  const section = 'Controller: transactions.userTransactions';
 
-  return restaurantsService.locate(user, query, { logger })
+  const { user } = req.headers;
+
+  return transactionsService.getTransactions(user, { logger })
     .then((resp) => res.status(200).send(resp)).catch((error) => {
       logger.error(`${section} ${JSON.stringify(error.message || error)} - Stack: ${error.stack}`);
 

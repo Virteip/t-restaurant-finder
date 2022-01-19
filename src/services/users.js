@@ -48,12 +48,3 @@ users.login = async (user, password, options = {}) => {
 
   return token;
 };
-
-users.getTransactions = async (user, options = {}) => {
-  const section = 'Services: getTransactions ';
-  const { logger } = options;
-
-  return usersRepository.getTransactions(user).catch((error) => {
-    logger.error(`${section}, ${error.message}`);
-  });
-};

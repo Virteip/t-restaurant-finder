@@ -19,7 +19,7 @@ users.login = async (req, res, next) => {
 
   return usersService.login(username, password, { logger })
     .then((resp) => res.status(200).send(resp)).catch((error) => {
-      logger.error(`${section} ${JSON.stringify(error.message || error)} AND stack ${error.stack}`);
+      logger.error(`${section} ${JSON.stringify(error.message || error)} - Stack: ${error.stack}`);
 
       return next(error);
     });
@@ -38,26 +38,7 @@ users.register = async (req, res, next) => {
 
   return usersService.userCreation(username, password, { logger })
     .then((resp) => res.status(201).send(resp)).catch((error) => {
-      logger.error(`${section}, ${JSON.stringify(error.message || error)} AND stack ${error.stack}`);
-
-      return next(error);
-    });
-};
-
-users.transactions = async (req, res, next) => {
-  const section = 'Controller: user.transactions';
-
-  const { username } = req.params;
-
-  if (username === undefined) {
-    logger.error(`${section} Must specify username.`);
-
-    return res.status(401).send('Error: Invalid credentials.');
-  }
-
-  return usersService.getTransactions(username, { logger })
-    .then((resp) => res.status(200).send(resp)).catch((error) => {
-      logger.error(`${section}, ${JSON.stringify(error.message || error)} AND stack ${error.stack}`);
+      logger.error(`${section} ${JSON.stringify(error.message || error)} - Stack: ${error.stack}`);
 
       return next(error);
     });
@@ -66,17 +47,17 @@ users.transactions = async (req, res, next) => {
 users.logout = async (req, res, next) => {
   const section = 'Controller: user.transactions';
 
-  const { username } = req.params;
+  const { user } = req.headers;
 
-  if (username === undefined) {
+  if (user === undefined) {
     logger.error(`${section} Must specify username.`);
 
     return res.status(400).send('Error: invalid username.');
   }
 
-  return deleteToken(username, { logger })
+  return deleteToken(user, { logger })
     .then((resp) => res.send(200).send(resp)).catch((error) => {
-      logger.error(`${section}, ${JSON.stringify(error.message || error)} AND stack ${error.stack}`);
+      logger.error(`${section} ${JSON.stringify(error.message || error)} - Stack: ${error.stack}`);
 
       return next(error);
     });

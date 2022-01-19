@@ -11,7 +11,6 @@ const { APP_NAME } = process.env;
 
 const sandbox = sinon.createSandbox();
 const API_PATH = `/api/${APP_NAME}`;
-const API_KEY = '1234';
 
 chai.use(chaiHttp);
 
@@ -26,7 +25,6 @@ describe('Restaurants locator tests', async () => {
       .request(app)
       .get(`${API_PATH}/restaurant/locate?lat=4.703797&lng=20,-74.029817`)
       .set('Authorization', 'sergio')
-      .set('API_KEY', API_KEY)
       .set('token', '1token1234')
       .set('user', 'segio')
       .then(({ status }) => {
@@ -41,7 +39,6 @@ describe('Restaurants locator tests', async () => {
       .request(app)
       .get(`${API_PATH}/restaurant/locate?lat=4.703797&lng=20,-74.029817`)
       .set('Authorization', 'sergio')
-      .set('API_KEY', API_KEY)
       .set('token', '0000')
       .set('user', 'segio')
       .then(({ status }) => {

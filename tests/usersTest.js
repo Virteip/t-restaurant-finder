@@ -6,7 +6,9 @@ const bcrypt = require('bcrypt');
 const app = require('../index');
 
 const usersRepository = require('../src/repositories/users');
+const authentication = require('../src/configs/server/authentication');
 const { getToken } = require('../src/repositories/cache');
+const cache = require('../src/repositories/cache');
 
 const { APP_NAME } = process.env;
 
@@ -105,11 +107,14 @@ describe('Users management', async () => {
     }));
 
   it('Should logout user', async () => {
+    sandbox.stub(cache, 'getToken').resolves('space');
+
     await chai
       .request(app)
-      .get(`${API_PATH}/user/logout/sergio`)
-      .set('Authorization', 'sergio')
-      .set('API_KEY', API_KEY)
+      .get(`${API_PATH}/user/logout`)
+      .set('Authorization', 'test')
+      .set('token', 'space')
+      .set('user', 'sergio')
       .then(({ status }) => {
         assert.equal(status, 200);
       });
@@ -118,12 +123,16 @@ describe('Users management', async () => {
     assert.equal(searchResult, undefined);
   });
 
-  it('Should get user transactions (requests for restaurant locations)', async () => chai
-    .request(app)
-    .get(`${API_PATH}/user/transactions/sergio`)
-    .set('Authorization', 'sergio')
-    .set('API_KEY', API_KEY)
-    .then(({ status }) => {
-      assert.equal(status, 200);
-    }));
+  it('Should get user transactions (requests for restaurant locations)', async () => {
+    sandbox.stub(cache, 'getToken').resolves('space');
+    return chai
+      .request(app)
+      .get(`${API_PATH}/user/transactions`)
+      .set('Authorization', 'test')
+      .set('token', 'space')
+      .set('user', 'sergio')
+      .then(({ status }) => {
+        assert.equal(status, 200);
+      });
+  });
 });
